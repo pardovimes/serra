@@ -40,4 +40,18 @@ class ApplicationFilesSerraTest extends TestCase
         $this->assertEquals(0, count($output));
         $this->assertEquals(0, $result);
     }
+
+    /**
+     * @test
+     */
+    public function valid_file_from_application_with_exception_class_from_config(): void
+    {
+        $stubFile = dirname(__FILE__) . '/../stubs/Application/applicationFileWithInvalidUsageMarkedAsValid.php';
+        $configFile = dirname(__FILE__) . '/../stubs/Application/applicationFileWithInvalidUsageMarkedAsValidConfig.json';
+
+        exec('sudo php '. $this->serra . " -f ". $stubFile . " -c " . $configFile, $output, $result);
+
+        $this->assertEquals(0, count($output));
+        $this->assertEquals(0, $result);
+    }
 }
