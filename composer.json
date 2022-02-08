@@ -10,7 +10,7 @@
         }
     ],
     "bin": [
-        "serra"
+        "src/serra"
     ],
     "require": {
         "php": "^7.4 || ^8.0",
