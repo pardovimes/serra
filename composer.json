@@ -1,0 +1,32 @@
+{
+    "name": "pardovimes/serra",
+    "description": "A Script to check if there is DDD layer leaks",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Carlos Pardo Vimes",
+            "email": "pardovimes@gmail.com"
+        }
+    ],
+    "bin": [
+        "serra"
+    ],
+    "require": {
+        "php": "^7.3 || ^8.0",
+        "ext-json": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "serra\\DDDLayerChecker\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "serra\\DDDLayerChecker\\Tests\\": "tests/"
+        }
+    }
+}

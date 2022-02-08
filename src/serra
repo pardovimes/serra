@@ -1,0 +1,101 @@
+#!/usr/bin/env php
+<?php
+
+$options = getopt("f:c:");
+
+$file = $options['f'];
+$configFile = $options['c'];
+
+if ($configFile) {
+    $config = json_decode(file_get_contents($configFile), true);
+}
+
+$folderToScan = $config['folder-to-scan'] ?? 'src/';
+$domainLayerName = $config['domain-folder-name'] ?? "Domain";
+$applicationLayerName = $config['application-folder-name'] ?? "Application";
+
+if ($file) {
+    $filesToCheck = [$file];
+} else {
+    $rii = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($folderToScan));
+    $filesToCheck = [];
+
+    foreach ($rii as $file) {
+        if ($file->isDir()){
+            continue;
+        }
+
+        $filesToCheck[] = $file->getPathname();
+    }
+}
+
+$phpUsages = array_merge(
+    get_declared_classes(),
+    get_declared_interfaces(),
+    get_declared_traits(),
+);
+
+$domainErrors = checkLayer(
+    $filesToCheck,
+    $domainLayerName,
+    array_merge($phpUsages, $config['domain-valid-uses'] ?? []),
+    [$domainLayerName]
+);
+$applicationErrors = checkLayer(
+    $filesToCheck,
+    $applicationLayerName,
+    array_merge($phpUsages, $config['application-valid-uses'] ?? []),
+    [$domainLayerName, $applicationLayerName]
+);
+
+$errors = array_merge($domainErrors, $applicationErrors);
+
+if (count($errors) > 0) {
+    echo implode("\n", $errors) . "\n";
+    exit(1);
+}
+
+exit(0);
+
+function checkLayer(array $filesToCheck, string $layerToCheck, array $validUsages, array $validLayers): array
+{
+    $errors = [];
+
+    foreach ($filesToCheck as $fileToCheck) {
+        $fileContent = file_get_contents($fileToCheck);
+
+        $namespacePattern = "/^namespace .*(". $layerToCheck .").*;$/m";
+        $uses = "/^use (.*);$/m";
+        preg_match_all($namespacePattern, $fileContent, $matches);
+        $namespace = $matches[0][0];
+
+        if ($namespace) {
+            preg_match_all($uses, $fileContent, $matches);
+            $fileUses = $matches[1];
+
+            foreach ($fileUses as $fileUse) {
+                if (isFileInAValidLayer($fileUse, $validLayers)) {
+                    continue;
+                }
+                if (in_array($fileUse, $validUsages)) {
+                    continue;
+                }
+
+                $errors[] = $fileToCheck . ' --- shouldn\'t have this usage --- ' . $fileUse;
+            }
+        }
+    }
+
+    return $errors;
+}
+
+function isFileInAValidLayer(string $fileUse, array $validLayers): bool
+{
+    foreach ($validLayers as $validLayer) {
+        if (strpos($fileUse, $validLayer)) {
+            return true;
+        }
+    }
+
+    return false;
+}

@@ -1,0 +1,12 @@
+version: '3'
+services:
+  php-fpm:
+    build:
+      context: .
+      dockerfile: etc/docker/local/php-fpm/Dockerfile
+    container_name: serra_php_fpm
+    working_dir: /var/www/serra
+    volumes:
+      - ./:/var/www/serra
+      - ./etc/docker/local/php-fpm/php-ini-overrides.ini:/usr/local/etc/php/conf.d/99-overrides.ini
+      - ./etc/docker/local/php-fpm/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
