@@ -6,7 +6,7 @@ namespace stubs\Domain;
 
 use Throwable;
 
-class domainFIleWithPhpUsage
+class domainFileWithPhpUsage
 {
 
 }

@@ -6,7 +6,7 @@ namespace stubs\Domain;
 
 use Webmozart\Assert\Assert;
 
-class domainFIleWithInvalidUsageMarkedAsValid
+class domainFileWithInvalidUsageMarkedAsValid
 {
 
 }

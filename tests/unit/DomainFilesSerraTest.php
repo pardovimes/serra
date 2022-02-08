@@ -6,7 +6,7 @@ namespace unit;
 
 use PHPUnit\Framework\TestCase;
 
-class SerraTest extends TestCase
+class DomainFilesSerraTest extends TestCase
 {
     private string $serra;
 
@@ -33,7 +33,7 @@ class SerraTest extends TestCase
      */
     public function valid_file_from_domain(): void
     {
-        $stubFile = dirname(__FILE__) . '/../stubs/Domain/domainFIleWithPhpUsage.php';
+        $stubFile = dirname(__FILE__) . '/../stubs/Domain/domainFileWithPhpUsage.php';
 
         exec('sudo php '. $this->serra . " -f ". $stubFile, $output, $result);
 
@@ -46,8 +46,8 @@ class SerraTest extends TestCase
      */
     public function valid_file_from_domain_with_exception_class_from_config(): void
     {
-        $stubFile = dirname(__FILE__) . '/../stubs/Domain/domainFIleWithInvalidUsageMarkedAsValid.php';
-        $configFile = dirname(__FILE__) . '/../stubs/Domain/domainFIleWithInvalidUsageMarkedAsValidConfig.json';
+        $stubFile = dirname(__FILE__) . '/../stubs/Domain/domainFileWithInvalidUsageMarkedAsValid.php';
+        $configFile = dirname(__FILE__) . '/../stubs/Domain/domainFileWithInvalidUsageMarkedAsValidConfig.json';
 
         exec('sudo php '. $this->serra . " -f ". $stubFile . " -c " . $configFile, $output, $result);
 
