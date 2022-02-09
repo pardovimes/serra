@@ -2,7 +2,7 @@
     "name": "pardovimes/serra",
     "description": "A Script to check if there is DDD layer leaks",
     "type": "library",
-    "license": "MIT",
+    "license": "GPL-3.0-or-later",
     "authors": [
         {
             "name": "Carlos Pardo Vimes",
