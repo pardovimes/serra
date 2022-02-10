@@ -1,8 +1,13 @@
 {
     "name": "pardovimes/serra",
-    "description": "A Script to check if there is DDD layer leaks",
+    "description": "A Script to check if there is Domain-Driven Design layer leaks",
     "type": "library",
     "license": "GPL-3.0-or-later",
+    "keywords": [
+        "DDD",
+        "DDD Layer leaks",
+        "Serra"
+    ],
     "authors": [
         {
             "name": "Carlos Pardo Vimes",

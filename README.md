@@ -1,3 +1,9 @@
+# Serra
+
+Serra is a script that check if there are Domain-driven design layer leaks.
+
+*The name of this repository is inspired by serra angel*
+
 # Installation
 
 Install with composer:
@@ -13,7 +19,7 @@ php  <path to serra file> [-f <file>] [-c <config.json>]
 
 Example
 ```bash
-php  vendor/pardovimes/serra/src/serra
+php  vendor/bin/serra
 ```
 
 Options
